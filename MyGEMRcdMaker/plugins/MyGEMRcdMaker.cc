@@ -147,10 +147,9 @@ MyGEMRcdMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   for (auto roll : gemGeo->etaPartitions()) {
     auto center = roll->surface().toGlobal(LocalPoint(xShift,0,zShift));
     auto rot = roll->surface().rotation();
-
-    auto hrot = HepRotation(Hep3Vector(rot.xx(), rot.xy(), rot.xz()).unit(),
-			    Hep3Vector(rot.yx(), rot.yy(), rot.yz()).unit(),
-    			    Hep3Vector(rot.zx(), rot.zy(), rot.zz()).unit()
+    auto hrot = HepRotation(Hep3Vector(cos(rotAngle), 0, sin(rotAngle)).unit(),
+			    Hep3Vector(0, 1, 0).unit(),
+    			    Hep3Vector(-sin(rotAngle), 0, cos(rotAngle)).unit()
     			    );
     auto euler = hrot.inverse().eulerAngles();
     MyGEMAlignment->m_align.push_back(AlignTransform(AlignTransform::Translation(center.x(), center.y(), center.z()),
@@ -160,7 +159,7 @@ MyGEMRcdMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 										    roll->id()));
   }
 
-  for (auto chmb : gemGeo->chambers()) {
+  /*for (auto chmb : gemGeo->chambers()) {
     auto center = chmb->surface().toGlobal(LocalPoint(xShift,0,zShift));
     auto rot = chmb->surface().rotation();
     auto hrot = HepRotation(Hep3Vector(cos(rotAngle), 0, sin(rotAngle)).unit(),
@@ -188,7 +187,7 @@ MyGEMRcdMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 						     sch->id()));
     MyGEMAlignmentErrorExtended->m_alignError.push_back(AlignTransformErrorExtended(AlignTransformErrorExtended::SymMatrix(6),
 										    sch->id()));
-  }
+  }*/
 	
   
   // GeometryAligner expects ordering by raw ID
