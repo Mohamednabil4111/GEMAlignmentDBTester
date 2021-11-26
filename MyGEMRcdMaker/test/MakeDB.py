@@ -44,6 +44,9 @@ process.PoolDBOutputService = cms.Service("PoolDBOutputService",
 )
 
 process.gem_maker = cms.EDAnalyzer("MyGEMRcdMaker",
+    zShift = cms.double(5),
+    xShift = cms.double(3),
+    rotAngle = cms.double(50),
     loggingOn= cms.untracked.bool(True),
     SinceAppendMode=cms.bool(True),
     Source=cms.PSet(
