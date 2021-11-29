@@ -146,7 +146,7 @@ MyGEMRcdMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   for (auto roll : gemGeo->etaPartitions()) {
     auto center = roll->surface().toGlobal(LocalPoint(xShift,0,zShift));
-    auto rot = roll->surface().rotation();
+    //auto rot = roll->surface().rotation();
     auto hrot = HepRotation(Hep3Vector(cos(rotAngle), 0, sin(rotAngle)).unit(),
 			    Hep3Vector(0, 1, 0).unit(),
     			    Hep3Vector(-sin(rotAngle), 0, cos(rotAngle)).unit()
