@@ -67,32 +67,32 @@ GEMTestGeometryAnalyzer::analyze( const edm::Event& /*iEvent*/, const edm::Event
 {
   ofos << myName() << ": Analyzer..." << std::endl;
 
-  edm::ESHandle<GEMGeometry> pDD;
-  iSetup.get<MuonGeometryRecord>().get(pDD);     
+  edm::ESHandle<GEMGeometry> gemGeo;
+  iSetup.get<MuonGeometryRecord>().get(gemGeo);     
   
   ofos << "start " << dashedLine_ << std::endl;
 
-  ofos << " Geometry node for GEMGeom is  " << &(*pDD) << endl;   
-  ofos << " detTypes       \t"              <<pDD->detTypes().size() << endl;
-  ofos << " GeomDetUnit       \t"           <<pDD->detUnits().size() << endl;
-  ofos << " GeomDet           \t"           <<pDD->dets().size() << endl;
-  ofos << " GeomDetUnit DetIds\t"           <<pDD->detUnitIds().size() << endl;
-  ofos << " eta partitions \t"              <<pDD->etaPartitions().size() << endl;
-  ofos << " chambers       \t"              <<pDD->chambers().size() << endl;
-  ofos << " super chambers  \t"             <<pDD->superChambers().size() << endl;
-  ofos << " rings  \t\t"                    <<pDD->rings().size() << endl;
-  ofos << " stations  \t\t"                 <<pDD->stations().size() << endl;
-  ofos << " regions  \t\t"                  <<pDD->regions().size() << endl;
+  ofos << " Geometry node for GEMGeom is  " << &(*gemGeo) << endl;   
+  ofos << " detTypes       \t"              <<gemGeo->detTypes().size() << endl;
+  ofos << " GeomDetUnit       \t"           <<gemGeo->detUnits().size() << endl;
+  ofos << " GeomDet           \t"           <<gemGeo->dets().size() << endl;
+  ofos << " GeomDetUnit DetIds\t"           <<gemGeo->detUnitIds().size() << endl;
+  ofos << " eta partitions \t"              <<gemGeo->etaPartitions().size() << endl;
+  //ofos << " chambers       \t"              <<pDD->chambers().size() << endl;
+  //ofos << " super chambers  \t"             <<pDD->superChambers().size() << endl;
+  //ofos << " rings  \t\t"                    <<pDD->rings().size() << endl;
+  //ofos << " stations  \t\t"                 <<pDD->stations().size() << endl;
+  //ofos << " regions  \t\t"                  <<pDD->regions().size() << endl;
 
   // checking uniqueness of roll detIds 
   bool flagNonUniqueRollID = false;
   bool flagNonUniqueRollRawID = false;
   int nstrips = 0;
   int npads = 0;
-  for (auto roll1 : pDD->etaPartitions()){
+  for (auto roll1 : gemGeo->etaPartitions()){
     nstrips += roll1->nstrips();
     npads += roll1->npads();
-    for (auto roll2 : pDD->etaPartitions()){
+    for (auto roll2 : gemGeo->etaPartitions()){
       if (roll1 != roll2){
 	if (roll1->id() == roll2->id()) flagNonUniqueRollID = true;
 	if (roll1->id().rawId() == roll2->id().rawId()) flagNonUniqueRollRawID = true;
